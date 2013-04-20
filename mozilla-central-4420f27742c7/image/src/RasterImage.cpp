@@ -31,6 +31,7 @@
 #include "nsBMPDecoder.h"
 #include "nsICODecoder.h"
 #include "nsIconDecoder.h"
+#include "nsWEBPDecoder.h"
 
 #ifdef MOZ_WBMP
 #include "nsWBMPDecoder.h"
@@ -2537,6 +2538,9 @@ RasterImage::InitDecoder(bool aDoSizeDecode, bool aIsSynchronous /* = false */)
       break;
     case eDecoderType_icon:
       mDecoder = new nsIconDecoder(*this);
+      break;
+    case eDecoderType_webp:
+      mDecoder = new nsWEBPDecoder(*this);
       break;
 #ifdef MOZ_WBMP
     case eDecoderType_wbmp:

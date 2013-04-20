@@ -19,6 +19,7 @@ FAIL_ON_WARNINGS = 1
 
 CPPSRCS = nsPNGDecoder.cpp nsJPEGDecoder.cpp nsGIFDecoder2.cpp \
           nsBMPDecoder.cpp nsICODecoder.cpp nsIconDecoder.cpp \
+	  nsWEBPDecoder.cpp \
           $(NULL)
 
 ifdef MOZ_WBMP
