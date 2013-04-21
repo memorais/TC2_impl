@@ -59,7 +59,7 @@ class RasterImage;
 class nsWEBPDecoder : public Decoder
 {
 public:
-  nsWEBPDecoder(RasterImage &aImage, imgIDecoderObserver* aObserver);
+  nsWEBPDecoder(RasterImage &aImage);
   virtual ~nsWEBPDecoder();
 
   virtual void InitInternal();
