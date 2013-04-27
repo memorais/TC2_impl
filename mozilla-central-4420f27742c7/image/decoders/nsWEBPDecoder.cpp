@@ -111,7 +111,8 @@ nsWEBPDecoder::FinishInternal()
 void
 nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
 {
-  VP8StatusCode rv = WebPIAppend(mDecoder, reinterpret_cast<const uint8_t*>(aBuffer), aCount);
+  const uint8_t* buf = (const uint8_t*)aBuffer;
+  VP8StatusCode rv = WebPIAppend(mDecoder, buf, aCount);
   if (rv == VP8_STATUS_OUT_OF_MEMORY) {
     PostDecoderError(NS_ERROR_OUT_OF_MEMORY);
     return;
