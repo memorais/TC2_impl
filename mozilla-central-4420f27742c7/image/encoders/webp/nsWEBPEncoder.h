@@ -15,4 +15,12 @@
  0x462d,					   \
  {0xbb, 0x49, 0x68, 0x8d, 0xd1, 0xa6, 0x3e, 0xe5 } \
 }
+/*
+extern "C" {
+#include "webp/encode.h"
+}
 
+class nsWEBPEncoder MOZ_FINAL : public imgIEncoder
+{
+
+}*/
