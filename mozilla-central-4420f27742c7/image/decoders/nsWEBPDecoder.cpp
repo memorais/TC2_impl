@@ -39,7 +39,7 @@
 
 #include "nsWEBPDecoder.h"
 
-#include "imgIContainerObserver.h"
+#include "RasterImage.h"
 
 #include "nsIInputStream.h"
 
