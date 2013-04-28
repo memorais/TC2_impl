@@ -41,7 +41,6 @@
 #define nsWEBPDecoder_h__
 
 #include "Decoder.h"
-#include "RasterImage.h"
 
 #include "nsCOMPtr.h"
 

@@ -28,16 +28,16 @@ LOCAL_INCLUDES += \
   $(NULL)
 
 VPATH += \
-  $(srcdir)/src/dec/ \
-  $(srcdir)/src/dsp/ \
-  $(srcdir)/src/utils/ \
+  $(srcdir)/dec/ \
+  $(srcdir)/dsp/ \
+  $(srcdir)/utils/ \
   $(NULL)
 
 EXPORTS_NAMESPACES = webp
 
 EXPORTS_webp = \
-  src/webp/types.h \
-  src/webp/decode.h \
+  webp/types.h \
+  webp/decode.h \
   $(NULL)
 
 CSRCS += \
@@ -76,11 +76,11 @@ CSRCS += \
 
 ifdef MOZ_WEBP_ENCODER
 VPATH += \
-  $(srcdir)/src/enc/ \
+  $(srcdir)/enc/ \
   $(NULL)
 
 EXPORTS_webp += \
-  src/webp/encode.h \
+  webp/encode.h \
   $(NULL)
 
 CSRCS += \
@@ -103,3 +103,4 @@ CSRCS += \
   $(NULL)
 endif
 
+include $(topsrcdir)/config/rules.mk

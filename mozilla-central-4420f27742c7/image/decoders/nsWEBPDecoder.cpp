@@ -37,15 +37,13 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+#include "ImageLogging.h"
 #include "nsWEBPDecoder.h"
-
-#include "RasterImage.h"
 
 #include "nsIInputStream.h"
 
 #include "nspr.h"
 #include "nsCRT.h"
-#include "ImageLogging.h"
 #include "gfxColor.h"
 
 #include "gfxPlatform.h"
