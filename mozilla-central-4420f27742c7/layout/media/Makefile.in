@@ -103,7 +103,7 @@ endif
 
 ifdef MOZ_WEBP
 SHARED_LIBRARY_LIBS    += \
-       $(DEPTH)/media/libwebp/$(LIB_PREFIX)mozwebp.$(LIB_SUFFIX) \
+       $(DEPTH)/media/libwebp/src/$(LIB_PREFIX)mozwebp.$(LIB_SUFFIX) \
        $(NULL)
 endif
 
