@@ -7,6 +7,8 @@
   
 #include "imgIEncoder.h"
 
+#include "nsCOMPtr.h"
+
 #define NS_WEBPENCODER_CID \
 {
  /* 05848c32-1722-462d-bb49-688dd1a63ee5 */	   \
