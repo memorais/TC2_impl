@@ -156,9 +156,10 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
   PRUint32 imagelength;
   // First incremental Image data chunk. Special handling required.
   if (mLastLine == 0 && lastLineRead > 0) {
-    nsresult res = mImage->AppendFrame(0, 0, width, height,
+    imgFrame* aFrame;
+    nsresult res = mImage.EnsureFrame(0, 0, 0, width, height,
                                        gfxASurface::ImageFormatARGB32,
-                                       &mImageData, &imagelength);
+                                       (uint8_t**)&mImageData, &imagelength, &aFrame);
     if (NS_FAILED(res) || !mImageData) {
       PostDecoderError(NS_ERROR_FAILURE);
       return;
@@ -178,7 +179,7 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
       PRUint32 *cptr32 = (PRUint32*)(mImageData + (line * bpr));
       PRUint8  *cptr8 = mData + (line * stride);
       for (int pix = 0; pix < width; pix++, cptr8 += stride) {
-        *cptr32++ = GFX_PACKED_PIXEL(0xFF, cptr8[0], cptr8[1], cptr8[2]);
+        *cptr32++ = gfxPackedPixel(cptr8[3], cptr8[0], cptr8[1], cptr8[2]);
       }
     }
 
