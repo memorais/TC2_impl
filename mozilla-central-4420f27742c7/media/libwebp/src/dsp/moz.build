@@ -6,7 +6,7 @@
 
 MODULE = 'webp'
 
-EXPORT += [ 
+EXPORTS.webp += [ 
     'dsp.h',
     'lossless.h',
     'yuv.h'

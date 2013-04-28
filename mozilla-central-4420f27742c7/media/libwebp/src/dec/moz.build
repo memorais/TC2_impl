@@ -6,7 +6,7 @@
 
 MODULE = 'webp'
 
-EXPORT += [ 
+EXPORTS.webp += [ 
     'decode_vp8.h',
     'vp8i.h',
     'vp8li.h',

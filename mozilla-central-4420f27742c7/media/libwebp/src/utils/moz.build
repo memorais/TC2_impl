@@ -6,7 +6,7 @@
 
 MODULE = 'webp'
 
-EXPORT += [ 
+EXPORTS.webp += [ 
     'bit_reader.h',
     'bit_writer.h',
     'color_cache.h',

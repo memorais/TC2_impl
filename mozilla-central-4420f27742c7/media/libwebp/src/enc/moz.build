@@ -6,7 +6,7 @@
 
 MODULE = 'webp'
 
-EXPORT += [ 
+EXPORTS.webp += [ 
     'backward_references.h',
     'cost.h',
     'histogram.h',

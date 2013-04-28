@@ -6,6 +6,6 @@
 
 MODULE = 'webp'
 
-EXPORT += [ 
+EXPORTS.webp += [ 
     'muxi.h'
 ]

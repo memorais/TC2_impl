@@ -5,13 +5,3 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 MODULE = 'webp'
-
-EXPORTS.webp += [ 
-    'decode.h',
-    'demux.h',
-    'encode.h',
-    'format_constants.h',
-    'mux_types.h',
-    'mux.h',
-    'types.h'
-]
