@@ -15,6 +15,12 @@ MODULE_NAME	= imgEncoderWEBPModule
 LIBXUL_LIBRARY = 1
 FAIL_ON_WARNINGS = 1
 
+EXPORTS_NAMESPACES = imgwebpe
+
+EXPORTS_imgwebpe = \
+	nsWEBPEncoder.h \
+	$(NULL)
+
 CPPSRCS		= nsWEBPEncoder.cpp
 
 include $(topsrcdir)/config/rules.mk

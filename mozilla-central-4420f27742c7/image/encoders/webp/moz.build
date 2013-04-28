@@ -6,3 +6,6 @@
 
 MODULE = 'imgwebpe'
 
+EXPORTS.imgwebpe += [
+	'nsWEBPEncoder.h'
+]
