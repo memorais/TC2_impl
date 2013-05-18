@@ -38,6 +38,34 @@ EXPORTS_NAMESPACES = webp
 EXPORTS_webp = \
   webp/types.h \
   webp/decode.h \
+  webp/format_constants.h \
+  webp/mux.h \
+  webp/mux_types.h \
+  webp/demux.h \
+  mux/muxi.h \
+  utils/quant_levels_dec.h \
+  utils/huffman.h \
+  utils/thread.h \
+  utils/bit_writer.h \
+  utils/bit_reader.h \
+  utils/color_cache.h \
+  utils/quant_levels.h \
+  utils/utils.h \
+  utils/filters.h \
+  utils/huffman_encode.h \
+  utils/rescaler.h \
+  dsp/dsp.h \
+  dsp/yuv.h \
+  dsp/lossless.h \
+  dec/vp8i.h \
+  dec/decode_vp8.h \
+  dec/vp8li.h \
+  dec/webpi.h \
+  enc/backward_references.h \
+  enc/vp8li.h \
+  enc/vp8enci.h \
+  enc/histogram.h \
+  enc/cost.h \
   $(NULL)
 
 CSRCS += \
@@ -81,6 +109,34 @@ VPATH += \
 
 EXPORTS_webp += \
   webp/encode.h \
+  webp/format_constants.h \
+  webp/mux.h \
+  webp/mux_types.h \
+  webp/demux.h \
+  mux/muxi.h \
+  utils/quant_levels_dec.h \
+  utils/huffman.h \
+  utils/thread.h \
+  utils/bit_writer.h \
+  utils/bit_reader.h \
+  utils/color_cache.h \
+  utils/quant_levels.h \
+  utils/utils.h \
+  utils/filters.h \
+  utils/huffman_encode.h \
+  utils/rescaler.h \
+  dsp/dsp.h \
+  dsp/yuv.h \
+  dsp/lossless.h \
+  dec/vp8i.h \
+  dec/decode_vp8.h \
+  dec/vp8li.h \
+  dec/webpi.h \
+  enc/backward_references.h \
+  enc/vp8li.h \
+  enc/vp8enci.h \
+  enc/histogram.h \
+  enc/cost.h \
   $(NULL)
 
 CSRCS += \
