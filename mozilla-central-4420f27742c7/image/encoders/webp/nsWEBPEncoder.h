@@ -37,6 +37,8 @@ private:
 
 protected:
 
+  bool mFinished;
+
   // image buffer
   uint8_t* mImageBuffer;
   uint32_t mImageBufferSize;

@@ -12,7 +12,8 @@ using namespace mozilla;
 
 NS_IMPL_THREADSAFE_ISUPPORTS3(nsWEBPEncoder, imgIEncoder, nsIInputStream, nsIAsyncInputStream)
 
-nsWEBPEncoder::nsWEBPEncoder() : mImageBuffer(nullptr), mImageBufferSize(0),
+nsWEBPEncoder::nsWEBPEncoder() : mFinished(false),
+				 mImageBuffer(nullptr), mImageBufferSize(0),
                                  mImageBufferUsed(0), mImageBufferReadPoint(0),
                                  mCallback(nullptr),
                                  mCallbackTarget(nullptr), mNotifyThreshold(0),
