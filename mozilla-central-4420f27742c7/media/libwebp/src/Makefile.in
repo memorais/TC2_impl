@@ -90,6 +90,7 @@ CSRCS += \
   lossless.c \
   quant.c \
   quant_levels.c \
+  quant_levels_dec.c \
   rescaler.c \
   thread.c \
   tree.c \
@@ -148,6 +149,7 @@ CSRCS += \
   filter.c \
   frame.c \
   histogram.c \
+  quant_levels_dec.c \
   iterator.c \
   layer.c \
   picture.c \
