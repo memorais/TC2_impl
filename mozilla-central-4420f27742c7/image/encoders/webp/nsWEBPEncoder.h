@@ -37,6 +37,7 @@ private:
 
 protected:
 
+  void NotifyListener();
   bool mFinished;
 
   // image buffer
