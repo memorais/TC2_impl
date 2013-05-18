@@ -28,6 +28,28 @@ nsWEBPEncoder::~nsWEBPEncoder()
   }
 }
 
+// TODO 
+NS_IMETHODIMP nsWEBPEncoder::InitFromData(const uint8_t* aData,
+                                          uint32_t aLength, // (unused, req'd by JS)
+                                          uint32_t aWidth,
+                                          uint32_t aHeight,
+                                          uint32_t aStride,
+                                          uint32_t aInputFormat,
+                                          const nsAString& aOutputOptions)
+{
+  NS_ENSURE_ARG(aData);
+  return NS_ERROR_NOT_IMPLEMENTED;
+}
+
+// TODO
+NS_IMETHODIMP nsWEBPEncoder::StartImageEncode(uint32_t aWidth,
+                                              uint32_t aHeight,
+                                              uint32_t aInputFormat,
+                                              const nsAString& aOutputOptions)
+{
+  return NS_ERROR_NOT_IMPLEMENTED;
+}
+
 // Returns the number of bytes in the image buffer used.
 NS_IMETHODIMP nsWEBPEncoder::GetImageBufferUsed(uint32_t *aOutputSize)
 {
@@ -42,6 +64,24 @@ NS_IMETHODIMP nsWEBPEncoder::GetImageBuffer(char **aOutputBuffer)
   NS_ENSURE_ARG_POINTER(aOutputBuffer);
   *aOutputBuffer = reinterpret_cast<char*>(mImageBuffer);
   return NS_OK;
+}
+
+// TODO
+
+NS_IMETHODIMP nsWEBPEncoder::AddImageFrame(const uint8_t* aData,
+                                           uint32_t aLength,
+                                           uint32_t aWidth,
+                                           uint32_t aHeight,
+                                           uint32_t aStride,
+                                           uint32_t aFrameFormat,
+                                           const nsAString& aFrameOptions)
+{
+  return NS_ERROR_NOT_IMPLEMENTED;
+}
+
+NS_IMETHODIMP nsWEBPEncoder::EndImageEncode()
+{
+  return NS_ERROR_NOT_IMPLEMENTED;
 }
 
 NS_IMETHODIMP nsWEBPEncoder::Close()
