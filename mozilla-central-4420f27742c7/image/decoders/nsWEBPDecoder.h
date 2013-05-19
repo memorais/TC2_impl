@@ -68,7 +68,7 @@ public:
   WebPIDecoder *mDecoder;  // Pointer to Incremental WebP Decoder.
   WebPDecBuffer mDecBuf;   // Decoder buffer for output RGBA data.
   PRUint8 *mData;          // Pointer to WebP-decoded data.
-  PRUint8 *mImageData;     // Pointer to RGBA image buffer (allocated by Image Frame).
+  uint32_t *mImageData;     // Pointer to RGBA image buffer (allocated by Image Frame).
   int mLastLine;           // Last image scan-line read so far.
 
 };
