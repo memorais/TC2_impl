@@ -130,9 +130,9 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
   }
 
   int lastLineRead = -1;
-  int height;
-  int width;
-  int stride;
+  int height = 0;
+  int width = 0;
+  int stride = 0;
 
   mData = WebPIDecGetRGB(mDecoder, &lastLineRead, &width, &height, &stride);
 
@@ -174,11 +174,11 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
   }
 
   if (lastLineRead > mLastLine) {
-    PRUint32 bpr = width * sizeof(PRUint32);
+    // PRUint32 bpr = width * sizeof(PRUint32);
     for (int line = mLastLine; line < lastLineRead; line++) {
-      PRUint32 *cptr32 = (PRUint32*)(mImageData + (line * bpr));
+      PRUint32 *cptr32 = (PRUint32*)(mImageData + (line * width));
       PRUint8  *cptr8 = mData + (line * stride);
-      for (int pix = 0; pix < width; pix++, cptr8 += stride) {
+      for (int pix = 0; pix < width; pix++, cptr8 += 4) {
         *cptr32++ = gfxPackedPixel(cptr8[3], cptr8[0], cptr8[1], cptr8[2]);
       }
     }
