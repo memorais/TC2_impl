@@ -81,8 +81,10 @@ nsWEBPDecoder::InitInternal()
 {
   if (!WebPInitDecBuffer(&mDecBuf)) {
     PostDecoderError(NS_ERROR_FAILURE);
+    return;
   }
-  mDecBuf.colorspace = MODE_RGBA;
+  mLastLine = 0;
+  mDecBuf.colorspace = MODE_rgbA;
   mDecoder = WebPINewDecoder(&mDecBuf);
   if (!mDecoder) {
     PostDecoderError(NS_ERROR_FAILURE);
