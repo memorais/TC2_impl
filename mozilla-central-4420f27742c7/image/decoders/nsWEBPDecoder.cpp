@@ -176,13 +176,12 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
   }
 
   if (lastLineRead > mLastLine) {
-    // PRUint32 bpr = width * sizeof(PRUint32);
-    uint32_t bpr = width * sizeof(uint32_t);
     for (int line = mLastLine; line < lastLineRead; line++) {
-      uint32_t *cptr32 = (uint32_t*)(mImageData + (line * bpr));
-      PRUint8  *cptr8 = mData + (line * stride);
+      uint32_t *cptr32 = (uint32_t*)(mImageData + (line * width));
+      uint8_t *cptr8 = mData + (line * stride);
       for (int pix = 0; pix < width; pix++, cptr8 += 4) {
-        *cptr32++ = gfxPackedPixel(cptr8[3], cptr8[0], cptr8[1], cptr8[2]);
+	if((cptr8[3] != 0) && (cptr8[0] != 0) && (cptr8[1] != 0) && (cptr8[2] != 0))
+	        *cptr32++ = gfxPackedPixel(cptr8[3], cptr8[0], cptr8[1], cptr8[2]);
       }
     }
 
