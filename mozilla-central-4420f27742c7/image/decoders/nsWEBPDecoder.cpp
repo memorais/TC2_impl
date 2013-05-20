@@ -129,6 +129,7 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
   // Catch any remaining erroneous return value.
   if (rv != VP8_STATUS_OK && rv != VP8_STATUS_SUSPENDED) {
     PostDecoderError(NS_ERROR_FAILURE);
+    return;
   }
 
   int lastLineRead = -1;
@@ -148,8 +149,9 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
     return;
   }
 
-  // Post our size to the superclass
-  PostSize(width, height);
+  // Only post our size to the superclass once.
+  if (!HasSize())
+    PostSize(width, height);
 
   // If we're doing a size decode, we're done.
   if (IsSizeDecode())
@@ -166,8 +168,6 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
       PostDecoderError(NS_ERROR_FAILURE);
       return;
     }
-    // Tell the superclass we're starting a frame.
-    PostFrameStart();
   }
 
   if (!mImageData) {
@@ -180,8 +180,8 @@ nsWEBPDecoder::WriteInternal(const char *aBuffer, uint32_t aCount)
       uint32_t *cptr32 = (uint32_t*)(mImageData + (line * width));
       uint8_t *cptr8 = mData + (line * stride);
       for (int pix = 0; pix < width; pix++, cptr8 += 4) {
-	if((cptr8[3] != 0) && (cptr8[0] != 0) && (cptr8[1] != 0) && (cptr8[2] != 0))
-	        *cptr32++ = gfxPackedPixel(cptr8[3], cptr8[0], cptr8[1], cptr8[2]);
+	// if((cptr8[3] != 0) && (cptr8[0] != 0) && (cptr8[1] != 0) && (cptr8[2] != 0))
+	   *cptr32++ = gfxPackedPixel(cptr8[3], cptr8[0], cptr8[1], cptr8[2]);
       }
     }
 
