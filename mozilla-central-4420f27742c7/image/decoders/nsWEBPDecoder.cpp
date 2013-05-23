@@ -22,6 +22,9 @@
  *
  * Contributor(s):
  *   Vikas Arora <vikasa@google.com>
+ *   Shay Elkin <shay@everything.me>
+ *   Matheus Morais <matheus.morais@gmail.com>
+ *   
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or

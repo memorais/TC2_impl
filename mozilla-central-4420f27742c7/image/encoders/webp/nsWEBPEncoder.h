@@ -37,6 +37,10 @@ private:
 
 protected:
 
+  WebPPicture picture;
+  WebPConfig config;
+  WebPMemoryWriter memory_writer;
+
   void NotifyListener();
   bool mFinished;
 

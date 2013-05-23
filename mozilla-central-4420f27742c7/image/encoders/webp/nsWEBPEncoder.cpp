@@ -12,7 +12,8 @@ using namespace mozilla;
 
 NS_IMPL_THREADSAFE_ISUPPORTS3(nsWEBPEncoder, imgIEncoder, nsIInputStream, nsIAsyncInputStream)
 
-nsWEBPEncoder::nsWEBPEncoder() : mFinished(false),
+nsWEBPEncoder::nsWEBPEncoder() : picture(nullptr), config(nullptr), memory_writer(nullptr),
+				 mFinished(false),
 				 mImageBuffer(nullptr), mImageBufferSize(0),
                                  mImageBufferUsed(0), mImageBufferReadPoint(0),
                                  mCallback(nullptr),
@@ -29,7 +30,6 @@ nsWEBPEncoder::~nsWEBPEncoder()
   }
 }
 
-// TODO 
 NS_IMETHODIMP nsWEBPEncoder::InitFromData(const uint8_t* aData,
                                           uint32_t aLength, // (unused, req'd by JS)
                                           uint32_t aWidth,
@@ -39,16 +39,62 @@ NS_IMETHODIMP nsWEBPEncoder::InitFromData(const uint8_t* aData,
                                           const nsAString& aOutputOptions)
 {
   NS_ENSURE_ARG(aData);
-  return NS_ERROR_NOT_IMPLEMENTED;
+  nsresult rv;
+
+  rv = StartImageEncode(aWidth, aHeight, aInputFormat, aOutputOptions);
+  if (!NS_SUCCEEDED(rv))
+    return rv;
+
+  rv = AddImageFrame(aData, aLength, aWidth, aHeight, aStride,
+                     aInputFormat, aOutputOptions);
+  if (!NS_SUCCEEDED(rv))
+    return rv;
+
+  rv = EndImageEncode();
+
+  return rv;
 }
 
-// TODO
 NS_IMETHODIMP nsWEBPEncoder::StartImageEncode(uint32_t aWidth,
                                               uint32_t aHeight,
                                               uint32_t aInputFormat,
                                               const nsAString& aOutputOptions)
 {
-  return NS_ERROR_NOT_IMPLEMENTED;
+  // can't initialize more than once
+  if (mImageBuffer != nullptr)
+    return NS_ERROR_ALREADY_INITIALIZED;
+
+  // validate input format
+  if (aInputFormat != INPUT_FORMAT_RGB &&
+      aInputFormat != INPUT_FORMAT_RGBA &&
+      aInputFormat != INPUT_FORMAT_HOSTARGB)
+    return NS_ERROR_INVALID_ARG;
+
+  // Initializing webp needs
+  /* WebPPicture picture;
+  WebPConfig config;
+  WebPMemoryWriter memory_writer; */
+  
+  WebPMemoryWriterInit(&memory_writer);
+  
+  // Checking initialization
+  if (!WebPConfigInit(&config) || !WebPPictureInit(&picture))
+	return NS_ERROR_FAILURE; 
+
+  picture.width = aWidth;
+  picture.height = aHeight;
+
+  // Memory allocation
+  // The memory will be freed on EndImageEncode
+  if (!WebPPictureAlloc(&picture))
+	return NS_ERROR_OUT_OF_MEMORY;
+  
+  // Setting our webp writer
+  picture.writer = WebPMemoryWriter;
+  picture.writer = &memory_writer;
+
+  return NS_OK;
+
 }
 
 // Returns the number of bytes in the image buffer used.
@@ -77,12 +123,46 @@ NS_IMETHODIMP nsWEBPEncoder::AddImageFrame(const uint8_t* aData,
                                            uint32_t aFrameFormat,
                                            const nsAString& aFrameOptions)
 {
-  return NS_ERROR_NOT_IMPLEMENTED;
+
+  // must be initialized
+  if (mImageBuffer == nullptr)
+    return NS_ERROR_NOT_INITIALIZED;
+
+  // validate input format
+  if (aInputFormat != INPUT_FORMAT_RGB &&
+      aInputFormat != INPUT_FORMAT_RGBA &&
+      aInputFormat != INPUT_FORMAT_HOSTARGB)
+    return NS_ERROR_INVALID_ARG;
+
+  // Simple conversion first
+  size_t buffSize = sizeof(aData);
+  uint8_t* row = new uint8_t[aWidth * 4];
+  for (uint32_t y = 0; y < aHeight; y ++) {
+      WebPMemoryWrite((uint8_t*)&aData[y * aStride], buffSize, &picture);
+  }
+
+  return NS_OK;
+
 }
 
 NS_IMETHODIMP nsWEBPEncoder::EndImageEncode()
 {
-  return NS_ERROR_NOT_IMPLEMENTED;
+
+  // must be initialized
+  if (mImageBuffer == nullptr)
+    return NS_ERROR_NOT_INITIALIZED;
+
+  // if output callback can't get enough memory, it will free our buffer
+  if (!mImageBuffer)
+    return NS_ERROR_OUT_OF_MEMORY;
+
+  WebPPictureFree(&picture);
+
+  mFinished = true;
+  NotifyListener();
+
+return NS_OK;
+
 }
 
 NS_IMETHODIMP nsWEBPEncoder::Close()
