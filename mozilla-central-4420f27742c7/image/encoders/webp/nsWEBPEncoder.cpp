@@ -156,6 +156,11 @@ NS_IMETHODIMP nsWEBPEncoder::EndImageEncode()
   if (!mImageBuffer)
     return NS_ERROR_OUT_OF_MEMORY;
 
+  int success = WebPEncode(&config, &picture);
+
+  if (!success)
+    return NS_ERROR_FAILURE;
+
   WebPPictureFree(&picture);
 
   mFinished = true;
