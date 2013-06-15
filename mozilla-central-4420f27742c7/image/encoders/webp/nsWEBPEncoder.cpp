@@ -12,7 +12,7 @@ using namespace mozilla;
 
 NS_IMPL_THREADSAFE_ISUPPORTS3(nsWEBPEncoder, imgIEncoder, nsIInputStream, nsIAsyncInputStream)
 
-nsWEBPEncoder::nsWEBPEncoder() : picture(nullptr), config(nullptr), memory_writer(nullptr),
+nsWEBPEncoder::nsWEBPEncoder() : picture, config, memory_writer,
 				 mFinished(false),
 				 mImageBuffer(nullptr), mImageBufferSize(0),
                                  mImageBufferUsed(0), mImageBufferReadPoint(0),
@@ -120,7 +120,7 @@ NS_IMETHODIMP nsWEBPEncoder::AddImageFrame(const uint8_t* aData,
                                            uint32_t aWidth,
                                            uint32_t aHeight,
                                            uint32_t aStride,
-                                           uint32_t aFrameFormat,
+                                           uint32_t aInputFormat,
                                            const nsAString& aFrameOptions)
 {
 
