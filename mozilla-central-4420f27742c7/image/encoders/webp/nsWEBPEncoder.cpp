@@ -90,8 +90,8 @@ NS_IMETHODIMP nsWEBPEncoder::StartImageEncode(uint32_t aWidth,
 	return NS_ERROR_OUT_OF_MEMORY;
   
   // Setting our webp writer
-  picture.writer = WebPMemoryWriter;
-  picture.writer = &memory_writer;
+  picture.writer = WebPMemoryWrite;
+  picture.custom_ptr = &memory_writer;
 
   return NS_OK;
 
@@ -136,7 +136,7 @@ NS_IMETHODIMP nsWEBPEncoder::AddImageFrame(const uint8_t* aData,
 
   // Simple conversion first
   size_t buffSize = sizeof(aData);
-  uint8_t* row = new uint8_t[aWidth * 4];
+  // uint8_t* row = new uint8_t[aWidth * 4];
   for (uint32_t y = 0; y < aHeight; y ++) {
       WebPMemoryWrite((uint8_t*)&aData[y * aStride], buffSize, &picture);
   }
