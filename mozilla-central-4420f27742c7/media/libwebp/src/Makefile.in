@@ -27,88 +27,18 @@ LOCAL_INCLUDES += \
   -I$(topsrcdir)/media/libwebp/src/webp/ \
   $(NULL)
 
-VPATH += \
-  $(srcdir)/dec/ \
-  $(srcdir)/dsp/ \
-  $(srcdir)/utils/ \
-  $(NULL)
+# VPATH += \
+#  $(srcdir)/dec/ \
+#  $(srcdir)/enc/ \
+#  $(srcdir)/dsp/ \
+#  $(srcdir)/utils/ \
+#  $(NULL)
 
 EXPORTS_NAMESPACES = webp
 
 EXPORTS_webp = \
   webp/types.h \
   webp/decode.h \
-  webp/format_constants.h \
-  webp/mux.h \
-  webp/mux_types.h \
-  webp/demux.h \
-  mux/muxi.h \
-  utils/quant_levels_dec.h \
-  utils/huffman.h \
-  utils/thread.h \
-  utils/bit_writer.h \
-  utils/bit_reader.h \
-  utils/color_cache.h \
-  utils/quant_levels.h \
-  utils/utils.h \
-  utils/filters.h \
-  utils/huffman_encode.h \
-  utils/rescaler.h \
-  dsp/dsp.h \
-  dsp/yuv.h \
-  dsp/lossless.h \
-  dec/vp8i.h \
-  dec/decode_vp8.h \
-  dec/vp8li.h \
-  dec/webpi.h \
-  enc/backward_references.h \
-  enc/vp8li.h \
-  enc/vp8enci.h \
-  enc/histogram.h \
-  enc/cost.h \
-  $(NULL)
-
-CSRCS += \
-  alpha.c \
-  bit_reader.c \
-  bit_writer.c \
-  buffer.c \
-  color_cache.c \
-  cpu.c \
-  dec.c \
-  dec_neon.c \
-  dec_sse2.c \
-  enc.c \
-  enc_sse2.c \
-  filters.c \
-  frame.c \
-  huffman.c \
-  huffman_encode.c \
-  idec.c \
-  io.c \
-  layer.c \
-  lossless.c \
-  quant.c \
-  quant_levels.c \
-  quant_levels_dec.c \
-  rescaler.c \
-  thread.c \
-  tree.c \
-  upsampling.c \
-  upsampling_sse2.c \
-  utils.c \
-  vp8.c \
-  vp8l.c \
-  webp.c \
-  yuv.c \
-  $(NULL)
-
-ifdef MOZ_WEBP_ENCODER
-VPATH += \
-  $(srcdir)/enc/ \
-  $(NULL)
-
-EXPORTS_webp += \
   webp/encode.h \
   webp/format_constants.h \
   webp/mux.h \
@@ -141,24 +71,55 @@ EXPORTS_webp += \
   $(NULL)
 
 CSRCS += \
-  alpha.c \
-  analysis.c \
-  backward_references.c \
-  config.c \
-  cost.c \
-  filter.c \
-  frame.c \
-  histogram.c \
-  quant_levels_dec.c \
-  iterator.c \
-  layer.c \
-  picture.c \
-  quant.c \
-  syntax.c \
-  tree.c \
-  vp8l.c \
-  webpenc.c \
+  enc/alpha.c \
+  dec/alpha.c \
+  enc/analysis.c \
+  utils/bit_reader.c \
+  utils/bit_writer.c \
+  dec/buffer.c \
+  utils/color_cache.c \
+  enc/config.c \
+  dsp/cpu.c \
+  dsp/dec.c \
+  dsp/dec_neon.c \
+  dsp/dec_sse2.c \
+  dsp/enc.c \
+  dsp/enc_sse2.c \
+  utils/filters.c \
+  dec/frame.c \
+  enc/frame.c \
+  utils/huffman.c \
+  utils/huffman_encode.c \
+  dec/idec.c \
+  dec/io.c \
+  dec/layer.c \
+  enc/layer.c \
+  dsp/lossless.c \
+  enc/picture.c \
+  dec/quant.c \
+  enc/quant.c \
+  utils/quant_levels.c \
+  utils/quant_levels_dec.c \
+  utils/rescaler.c \
+  enc/syntax.c \
+  utils/thread.c \
+  dec/tree.c \
+  enc/tree.c \
+  enc/token.c \
+  dsp/upsampling.c \
+  dsp/upsampling_sse2.c \
+  utils/utils.c \
+  dec/vp8.c \
+  dec/vp8l.c \
+  enc/vp8l.c \
+  dec/webp.c \
+  enc/webpenc.c \
+  enc/iterator.c \
+  enc/cost.c \
+  enc/filter.c \
+  enc/histogram.c \
+  enc/backward_references.c \
+  dsp/yuv.c \
   $(NULL)
-endif
 
 include $(topsrcdir)/config/rules.mk
