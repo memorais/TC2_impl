@@ -54,6 +54,8 @@ protected:
   nsCOMPtr<nsIInputStreamCallback> mCallback;
   nsCOMPtr<nsIEventTarget> mCallbackTarget;
   uint32_t mNotifyThreshold;
+  static int WriteCallback(const uint8_t* data, size_t size, const WebPPicture* const picture);
+  void ConvertHostARGBRow(const uint8_t* aSrc, uint8_t* aDest, uint32_t aPixelWidth, bool aUseTransparency);
 
   /*
     nsWEBPEncoder is designed to allow one thread to pump data into it while another

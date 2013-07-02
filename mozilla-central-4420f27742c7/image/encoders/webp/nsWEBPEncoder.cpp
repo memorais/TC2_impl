@@ -90,8 +90,21 @@ NS_IMETHODIMP nsWEBPEncoder::StartImageEncode(uint32_t aWidth,
 	return NS_ERROR_OUT_OF_MEMORY;
   
   // Setting our webp writer
-  picture.writer = WebPMemoryWrite;
+  // picture.writer = WebPMemoryWrite;
+  // picture.custom_ptr = &memory_writer;
+
+  // Set up to read the data into our image buffer, start out with an 8K
+  // estimated size. Note: we don't have to worry about freeing this data
+  // in this function. It will be freed on object destruction.
+  mImageBufferSize = 8192;
+  mImageBuffer = (uint8_t*)moz_malloc(mImageBufferSize);
+  if (!mImageBuffer) {
+    return NS_ERROR_OUT_OF_MEMORY;
+  }
+  mImageBufferUsed = 0;
+  
   picture.custom_ptr = &memory_writer;
+  picture.writer = WebPMemoryWrite;
 
   return NS_OK;
 
@@ -136,10 +149,21 @@ NS_IMETHODIMP nsWEBPEncoder::AddImageFrame(const uint8_t* aData,
 
   // Simple conversion first
   size_t buffSize = sizeof(aData);
-  // uint8_t* row = new uint8_t[aWidth * 4];
+  uint8_t* row = new uint8_t[aWidth * 4];
   for (uint32_t y = 0; y < aHeight; y ++) {
-      WebPMemoryWrite((uint8_t*)&aData[y * aStride], buffSize, &picture);
+      ConvertHostARGBRow(&aData[y * aStride], row, aWidth, 1);
+      WebPMemoryWrite(row, buffSize, &picture);
   }
+
+  memory_writer.mem = mImageBuffer;
+  memory_writer.size = sizeof(mImageBuffer);
+
+  picture.writer = &WriteCallback;
+
+  int success = WebPEncode(&config, &picture);
+
+  if (!success)
+    return NS_ERROR_FAILURE;
 
   return NS_OK;
 
@@ -155,11 +179,6 @@ NS_IMETHODIMP nsWEBPEncoder::EndImageEncode()
   // if output callback can't get enough memory, it will free our buffer
   if (!mImageBuffer)
     return NS_ERROR_OUT_OF_MEMORY;
-
-  int success = WebPEncode(&config, &picture);
-
-  if (!success)
-    return NS_ERROR_FAILURE;
 
   WebPPictureFree(&picture);
 
@@ -260,6 +279,70 @@ NS_IMETHODIMP nsWEBPEncoder::AsyncWait(nsIInputStreamCallback *aCallback,
 NS_IMETHODIMP nsWEBPEncoder::CloseWithStatus(nsresult aStatus)
 {
   return Close();
+}
+
+// nsWEBPEncoder::ConvertHostARGBRow
+//
+//    Our colors are stored with premultiplied alphas, but PNGs use
+//    post-multiplied alpha. This swaps to PNG-style alpha.
+//
+//    Copied from gfx/cairo/cairo/src/cairo-png.c
+
+void
+nsWEBPEncoder::ConvertHostARGBRow(const uint8_t* aSrc, uint8_t* aDest,
+                                 uint32_t aPixelWidth,
+                                 bool aUseTransparency)
+{
+  uint32_t pixelStride = aUseTransparency ? 4 : 3;
+  for (uint32_t x = 0; x < aPixelWidth; x ++) {
+    const uint32_t& pixelIn = ((const uint32_t*)(aSrc))[x];
+    uint8_t *pixelOut = &aDest[x * pixelStride];
+
+    uint8_t alpha = (pixelIn & 0xff000000) >> 24;
+    if (alpha == 0) {
+      pixelOut[0] = pixelOut[1] = pixelOut[2] = pixelOut[3] = 0;
+    } else {
+      pixelOut[0] = (((pixelIn & 0xff0000) >> 16) * 255 + alpha / 2) / alpha;
+      pixelOut[1] = (((pixelIn & 0x00ff00) >>  8) * 255 + alpha / 2) / alpha;
+      pixelOut[2] = (((pixelIn & 0x0000ff) >>  0) * 255 + alpha / 2) / alpha;
+      if (aUseTransparency)
+        pixelOut[3] = alpha;
+    }
+  }
+}
+
+// nsWEBPEncoder::WriteCallback
+
+int // static
+nsWEBPEncoder::WriteCallback(const uint8_t* data, size_t size, const WebPPicture* const picture)
+{
+  nsWEBPEncoder* that = static_cast<nsWEBPEncoder*>(picture->custom_ptr);
+  if (! that->mImageBuffer)
+    return 0;
+
+  if (that->mImageBufferUsed + size > that->mImageBufferSize) {
+    // When we're reallocing the buffer we need to take the lock to ensure
+    // that nobody is trying to read from the buffer we are destroying
+    ReentrantMonitorAutoEnter autoEnter(that->mReentrantMonitor);
+
+    // expand buffer, just double each time
+    that->mImageBufferSize *= 2;
+    uint8_t* newBuf = (uint8_t*)moz_realloc(that->mImageBuffer,
+                                            that->mImageBufferSize);
+    if (! newBuf) {
+      // can't resize, just zero (this will keep us from writing more)
+      moz_free(that->mImageBuffer);
+      that->mImageBuffer = nullptr;
+      that->mImageBufferSize = 0;
+      that->mImageBufferUsed = 0;
+      return 0;
+    }
+    that->mImageBuffer = newBuf;
+  }
+  memcpy(&that->mImageBuffer[that->mImageBufferUsed], data, size);
+  that->mImageBufferUsed += size;
+  that->NotifyListener();
+  return 1;
 }
 
 void
