@@ -1,9 +1,25 @@
-Please see the file toolkit/content/license.html for the copyright licensing
-conditions attached to this codebase, including copies of the licenses
-concerned.
+Source Code
+All Mozilla software is open source and free software. This means that it is not only available for download free of charge, but you have access to the source code and may modify and redistribute our software subject to certain restrictions.
 
-You are not granted rights or licenses to the trademarks of the
-Mozilla Foundation or any party, including without limitation the
-Firefox name or logo.
+For more details, please read about our source code license and software licensing policy.
 
-For more information, see: http://www.mozilla.org/foundation/licensing.html
+Trademarks
+Although our code is free, it is very important that we strictly enforce our trademark rights, in order to be able to protect our users against people who use the marks to commit fraud. Our trademarks include, among others, the names Mozilla®, mozilla.org®, Firefox®, Thunderbird®, Bugzilla™, Camino®, Sunbird®, SeaMonkey®, and XUL™, as well as the Mozilla logo, Firefox logo, Thunderbird logo and the red lizard logo. (The full list is in the Mozilla Trademark Policy.) This means that, while you have considerable freedom to redistribute and modify our software, there are tight restrictions on your ability to use the Mozilla names and logos in ways which fall in the domain of trademark law, even when built into binaries that we provide.
+
+For more detail on our trademark licensing, see our Trademark Policy. If you still have questions after reading the policy, please contact trademarks@mozilla.org.
+
+Website Content
+Mozilla website content (i.e. text and pictures, not look and feel) is generally licensed under Creative Commons Attribution Share-Alike (CC-SA) licenses. User-generated content, such as comments on our blog posts, are also generally made available under CC-SA, but different Mozilla websites (such as addons.mozilla.org) may allow users to choose other licenses for content that they upload to our sites.
+
+For more details, see the policy on each individual website.
+
+Website Code
+You may use the HTML and CSS files on www.mozilla.org or other mozilla.org websites for your web site - as long as you don't use the visual design or style (the colors, gradients, fonts, etc.). In other words, you can use the HTML and/or CSS code, but your page should not look like you took Mozilla's page and dropped in your logo. This does not grant you any right to use the trademarks, trade names, service marks, or trade dress of the Mozilla Foundation.
+
+Executable Software
+Executable software binaries released by the Mozilla Project, such as Firefox and Thunderbird, are made available under the terms of the MPL. On some proprietary, non-free platforms, necessary binary components subject to other licenses may be included in the installer, as explained in this policy.
+
+Informative, Not Authoritative
+This page is designed to inform, not to be the final, authoritative reference. If you're looking to reuse or redistribute something Mozilla has created, always check the licensing in the thing itself (for example, in the footer of a web page, or in the "About" box of software) after you've looked at this document.
+
+In case of a conflict between this document and other documents (for example, if this document and the header file of a particular source code file conflict) the other document should take precedence. If you do discover such a conflict, please notify licensing@mozilla.org so we can fix it.
